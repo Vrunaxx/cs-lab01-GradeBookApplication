@@ -28,7 +28,7 @@ namespace GradeBook.UserInterfaces
             else if (command == "quit")
                 Quit = true;
             else
-                Console.WriteLine("{0} was not recognized, please try again.", command);//test
+                Console.WriteLine("{0} was not recognized, please try again.", command);
         }
 
         public static void CreateCommand(string command)
