@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GradeBook.GradeBooks
 {
-    public class BaseGradeBook
+    public abstract class BaseGradeBook
     {
         public string Name { get; set; }
         public List<Student> Students { get; set; }
@@ -91,25 +91,11 @@ namespace GradeBook.GradeBooks
                 using (var reader = new StreamReader(file))
                 {
                     var json = reader.ReadToEnd();
-                    var jobject = JsonConvert.DeserializeObject<JObject>(json);
-                    var type = Enum.Parse(typeof(GradeBookType),jobject.GetValue("Type").ToString(),true);
-                    switch (type)
-                    {
-                        case GradeBookType.Standard:
-                            gradeBook = JsonConvert.DeserializeObject<StandardGradeBook>(json);
-                            break;
-                        case GradeBookType.Ranked:
-                            gradeBook = JsonConvert.DeserializeObject<RankedGradeBook>(json);
-                            break;
-                        default:
-                            gradeBook = JsonConvert.DeserializeObject<StandardGradeBook>(json);
-                            break;
-                    }
-
-                    return gradeBook; 
+                    return ConvertToGradeBook(json);
                 }
             }
         }
+
 
         public void Save()
         {
